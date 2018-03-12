@@ -1,6 +1,8 @@
 (ns candlestick
   (:require [clj-time.core :as t]
-            [clj-time.format :as f]))
+            [clj-time.format :as f]
+            [clojure.tools.cli :refer [parse-opts]]))
+
 
 (defn day-str
   "Returns a string representation of a datetime in the local time zone."
@@ -22,6 +24,20 @@ Sicily     │        ─███──
            ┼─────┬─────┬─────┬─
              Mar   Apr   May")
    
+;(def cli-options
+  ;;; An option with a required argument
+  ;[["-" "--port PORT" "Port number"
+    ;:default 80
+    ;:parse-fn #(Integer/parseInt %)
+    ;:validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
+   ;["-h" "--help"]])
 
-(defn -main []
-  (println itinerary))
+(def actions
+  {:draw #(println itinerary)
+   :add  #(println "Added trip")})
+
+(defn -main [action]
+  (let [func (get actions (keyword action))]
+    (func)))
+
+  ;(parse-opts args cli-options))
