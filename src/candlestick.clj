@@ -16,9 +16,9 @@ Sicily     │        ─███──
 
 (def actions
   {:draw #(println itinerary)
-   :add  (fn [& args] (add-trip [] args))}) 
+   :add  (fn [args] (prn args) (spit "trips.txt" (add-trip [] args)))}) 
 
-(defn -main [action]
+(defn -main [action & args]
   (let [func (get actions (keyword action))]
-    (func)))
+    (func args)))
 
