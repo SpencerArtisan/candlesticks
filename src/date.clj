@@ -8,9 +8,11 @@
 
 (defrecord Date [java-date-time])
 
-(defn date
+(defn ->date
   [text]
-  (->Date (jt/local-date "d/M/yy" (str text "/18")))) 
+  (let [is-year-missing (re-find #"^[\d]*/[\d]*$" text)
+        text (if is-year-missing (str text "/2018") text)]
+    (->Date (jt/local-date "d/M/yyyy" text)))) 
 
 (defn ->str
   [date format]
