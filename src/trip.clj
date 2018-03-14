@@ -8,7 +8,7 @@
 
 (defn format-trip
   [{:keys [what start end]}]
-  (format "%-10s%s - %s" what (->str start :short) (->str end :short)))
+  (format "%-18s%s - %s" what (->str start :short) (->str end :short)))
 
 (defn ->edn
   [{:keys [what start end]}]

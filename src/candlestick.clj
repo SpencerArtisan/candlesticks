@@ -6,11 +6,13 @@
 
 (def actions
   {:draw (fn [args](->> (trip/load-trips)
-                        (chart/chart 100 (now) (add (now) (->duration 8 :month)))))
+                        (chart/chart 116 (now) (add (now) (->duration 9 :month)))))
    :add  (fn [args] (-> (trip/load-trips)
                         (trip/add-trip args)
                         (trip/save-trips)))
-   :list (fn [args] (clojure.string/join "\n" (map trip/format-trip (trip/load-trips))))})
+   :list (fn [args] (->> (trip/load-trips)
+                         (map trip/format-trip)
+                         (clojure.string/join "\n")))})
 
 
 (defn -main [action & args]
