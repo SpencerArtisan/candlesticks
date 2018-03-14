@@ -26,4 +26,10 @@
 (expect " Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
+(expect "
+ ┼──┬──┬─
+ 7  27 15
+ Jan  Feb  "
+        (subject/chart 9 jan1 feb28 []))
+
 

@@ -40,3 +40,7 @@ Sicily     │        ─███──
         labels (map #(format (str "%-" (count %) "s") (first %)) month-groups)] 
     (apply str " " labels)))
     
+(defn chart
+  [width start end trips]
+  (clojure.string/join "\n" ["" (x-axis-row width) (date-row width start end) (month-row width start end)]))
+  
