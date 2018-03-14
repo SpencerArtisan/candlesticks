@@ -7,6 +7,10 @@
    :long "dd/MM/yyyy"
    :month "MMM"})
 
+(def hours-per-unit
+   {:month (* 24 (/ 365 12))
+    :day 24})
+
 (defrecord Date [java-date-time])
 
 (defrecord Duration [hours])
@@ -18,10 +22,18 @@
         text (str text " 00:00:00")]
     (->Date (jt/local-date-time "d/M/yyyy HH:mm:ss" text)))) 
 
+(defn now
+  []
+  (->Date (jt/local-date-time)))
+
 (defn ->str
   [date format]
   (let [format-string (format formats)]
     (jt/format format-string (:java-date-time date))))
+
+(defn ->duration
+  [n unit]
+  (->Duration (* n (unit hours-per-unit))))
 
 (defn duration
   [start end]

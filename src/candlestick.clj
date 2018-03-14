@@ -1,16 +1,20 @@
 (ns candlestick
-  (:require [date :refer [->date]]
+  (:require [date :refer [->date ->duration now add]]
             [clojure.java.io :as io]
             [chart :as chart]
             [trip :as trip]))
 
 (def actions
-  {:draw (fn [args] (println (chart/chart 100 (->date "1/3/2018") (->date "1/1/2019") (trip/load-trips))))
-   :add  (fn [args] (spit "trips.edn" (pr-str (map trip/->edn (trip/add-trip (trip/load-trips) args))))) 
-   :list (fn [args] (println (clojure.string/join "\n" (map trip/format-trip (trip/load-trips)))))})
+  {:draw (fn [args](->> (trip/load-trips)
+                        (chart/chart 100 (now) (add (now) (->duration 8 :month)))))
+   :add  (fn [args] (-> (trip/load-trips)
+                        (trip/add-trip args)
+                        (trip/save-trips)))
+   :list (fn [args] (clojure.string/join "\n" (map trip/format-trip (trip/load-trips))))})
 
 
 (defn -main [action & args]
-  (let [func (get actions (keyword action))]
-    (func args)))
+  (let [func (get actions (keyword action))
+        result (func args)]
+    (when result (println result))))
 

@@ -23,3 +23,7 @@
   (if (.exists (io/file "trips.edn"))
     (map ->trip (read-string (slurp "trips.edn")))
     []))
+
+(defn save-trips
+  [trips]
+  (spit "trips.edn" (pr-str (map ->edn trips))))
