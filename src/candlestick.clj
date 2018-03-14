@@ -1,39 +1,13 @@
 (ns candlestick
   (:require [java-time :as time]
             [clojure.java.io :as io]
-            [chart :as chart]))
-
-
-(defn add-trip
-  [trips [what start end]]
-  (letfn [(->date [text] (time/local-date "d/M/yy" (str text "/18")))] 
-    (conj trips {:what what :start (->date start) :end (->date end)})))
-
-(defn format-trip
-  [{:keys [what start end]}]
-  (letfn [(->str [date] (time/format "d MMM" date))]
-    (str (format "%-10s" what) (->str start) " - " (->str end))))
-
-(defn ->edn
-  [{:keys [what start end]}]
-  (letfn [(->str [date] (time/format "dd/MM/yyyy" date))]
-    [what (->str start) (->str end)])) 
-
-(defn ->trip
-  [[what start end]]
-  (letfn [(->date [text] (time/local-date "dd/MM/yyyy" text))]
-    {:what what :start (->date start) :end (->date end)}))
-
-(defn load-trips
-  []
-  (if (.exists (io/file "trips.edn"))
-    (map ->trip (read-string (slurp "trips.edn")))
-    []))
+            [chart :as chart]
+            [trip :as trip]))
 
 (def actions
-  {:draw (fn [args] (println (chart/chart 100 (time/local-date 2018 3) (time/local-date 2019) (load-trips))))
-   :add  (fn [args] (spit "trips.edn" (pr-str (map ->edn (add-trip (load-trips) args))))) 
-   :list (fn [args] (println (clojure.string/join "\n" (map format-trip (load-trips)))))})
+  {:draw (fn [args] (println (chart/chart 100 (time/local-date 2018 3) (time/local-date 2019) (trip/load-trips))))
+   :add  (fn [args] (spit "trips.edn" (pr-str (map trip/->edn (trip/add-trip (trip/load-trips) args))))) 
+   :list (fn [args] (println (clojure.string/join "\n" (map trip/format-trip (trip/load-trips)))))})
 
 
 (defn -main [action & args]
