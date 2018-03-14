@@ -8,6 +8,7 @@
 (def jan31 (->date "31/1/2018"))
 (def feb28 (->date "28/2/2018"))
 (def jan-townsville {:what "Townsville" :start jan1 :end jan31})
+(def undated-usa {:what "USA"})
 
 (expect " ┼──┬──"
         (subject/x-axis-row 6))
@@ -29,6 +30,9 @@
 
 (expect "Townsville    │████     "
         (subject/trip-row 9 jan1 feb28 jan-townsville))
+
+(expect "USA"
+        (subject/trip-row 9 jan1 feb28 undated-usa))
 
 (expect "
               ┼──┬──┬──

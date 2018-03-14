@@ -13,10 +13,12 @@
 
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
-  (let [dates (date-range width start end)
-        in-trip (map #(between? % trip-start trip-end) dates)
-        bars (map #(if % "█" " ") (drop 1 in-trip))]
-    (apply str (format "%-14s" what) "│" bars)))
+  (if (and trip-start trip-end)
+    (let [dates (date-range width start end)
+          in-trip (map #(between? % trip-start trip-end) dates)
+          bars (map #(if % "█" " ") (drop 1 in-trip))]
+      (apply str (format "%-14s" what) "│" bars))
+    what))
 
 (defn x-axis-row
   [width]
