@@ -7,6 +7,15 @@
 (def trip {:what "place" :start (->date "1/2/2018") :end (->date "3/4/2018")})
 (def undated-trip {:what "place"})
 
+(expect []
+        (subject/delete-trip [trip] ["place"]))
+
+(expect []
+        (subject/delete-trip [trip] ["pl"]))
+
+(expect [trip]
+        (subject/delete-trip [trip] ["wibble"]))
+
 (expect [undated-trip]
         (subject/add-trip [] ["place"]))
 

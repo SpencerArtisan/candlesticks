@@ -9,6 +9,11 @@
                {:what what})]
     (conj trips trip)))
 
+(defn delete-trip
+  [trips [pattern]]
+  (letfn [(matches-pattern [trip] (clojure.string/starts-with? (:what trip) pattern))]
+    (filter (complement matches-pattern) trips)))
+
 (defn format-trip
   [{:keys [what start end]}]
   (if (and start end) 

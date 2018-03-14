@@ -15,6 +15,12 @@
       (trip/add-trip args)
       (trip/save-trips)))
 
+(defn delete-trip
+  [trips args]
+  (-> trips
+      (trip/delete-trip args)
+      (trip/save-trips)))
+
 (defn list-trips
   [trips args]
   (->> trips
@@ -22,9 +28,10 @@
        (clojure.string/join "\n")))
 
 (def actions
-  {:draw draw-chart
-   :add  add-trip
-   :list list-trips})
+  {:draw   draw-chart
+   :add    add-trip
+   :delete delete-trip
+   :list   list-trips})
 
 (defn -main [action & args]
   (let [trips (trip/load-trips)]
