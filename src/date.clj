@@ -30,3 +30,12 @@
 (defn add
   [start period]
   (->Date (jt/plus (:java-date-time start) (jt/hours (:hours period)))))
+
+(defn divide
+  [period divisor]
+  (->Duration (/ (:hours period) divisor)))
+
+(defn between?
+  [date start end]
+  (not (or (jt/before? (:java-date-time date) (:java-date-time start))
+           (jt/after? (:java-date-time date) (:java-date-time end)))))

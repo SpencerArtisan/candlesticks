@@ -1,16 +1,15 @@
 (ns chart
   (:require
-    [date :refer [duration]]))
+    [date :refer [duration divide add]]))
 
 (defn- date-range
   [quantity start end]
-  (let [days-between (jt/time-between (jt/local-date-time start) (jt/local-date-time end) :hours)
-        unit-days    (/ days-between quantity)
+  (let [unit-duration (divide (duration start end) quantity)
         build-range (fn [q date res]
                       (if (neg? q)
                         res
-                        (recur (- q 1) (jt/plus date (jt/hours unit-days)) (conj res date))))]
-    (build-range quantity (jt/local-date-time start) [])))
+                        (recur (- q 1) (add date unit-duration) (conj res date))))]
+    (build-range quantity start) []))
 
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
