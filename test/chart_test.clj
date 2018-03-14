@@ -7,6 +7,7 @@
 (def jan1 (local-date 2018 1 1))
 (def jan31 (local-date 2018 1 31))
 (def feb28 (local-date 2018 2 28))
+(def jan-townsville {:what "Townsville" :start jan1 :end jan31})
 
 (expect " ┼──┬─"
         (subject/x-axis-row 6))
@@ -27,12 +28,19 @@
         (subject/month-row 9 jan1 feb28))
 
 (expect "Townsville    │█████     "
-        (subject/trip-row 9 jan1 feb28 {:what "Townsville" :start jan1 :end jan31}))
+        (subject/trip-row 9 jan1 feb28 jan-townsville))
 
 (expect "
- ┼──┬──┬─
- 7  27 15
- Jan  Feb  "
+              ┼──┬──┬─
+              7  27 15
+              Jan  Feb  "
         (subject/chart 9 jan1 feb28 []))
+
+(expect "
+Townsville    │█████     
+              ┼──┬──┬─
+              7  27 15
+              Jan  Feb  "
+        (subject/chart 9 jan1 feb28 [jan-townsville]))
 
 

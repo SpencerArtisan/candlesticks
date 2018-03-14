@@ -49,5 +49,9 @@ Sicily     │        ─███──
     
 (defn chart
   [width start end trips]
-  (clojure.string/join "\n" ["" (x-axis-row width) (date-row width start end) (month-row width start end)]))
+  (let [trip-rows (map (partial trip-row width start end) trips)
+        axis [(x-axis-row width) (date-row width start end) (month-row width start end)]
+        indented-axis (map (partial str "             ") axis)
+        all-rows (flatten ["" trip-rows indented-axis])]
+    (clojure.string/join "\n" all-rows)))
   

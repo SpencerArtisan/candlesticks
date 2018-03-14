@@ -1,6 +1,7 @@
 (ns candlestick
   (:require [java-time :as time]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [chart :as chart]))
 
 
 (def itinerary "
@@ -37,7 +38,7 @@ Sicily     │        ─███──
     []))
 
 (def actions
-  {:draw (fn [args] (println itinerary))
+  {:draw (fn [args] (println (chart/chart 60 (time/local-date 2018) (time/local-date 2019) (load-trips))))
    :add  (fn [args] (spit "trips.edn" (pr-str (map ->edn (add-trip (load-trips) args))))) 
    :list (fn [args] (println (clojure.string/join "\n" (map format-trip (load-trips)))))})
 
