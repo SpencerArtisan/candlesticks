@@ -1,5 +1,5 @@
 To run
-clj -m candlestick
+clj -m candlesticks.core [list, add, delete or draw]
 
 To test
-clj -C:test -i test/candlestick_test.clj
+clj -C:test -i test/candlesticks/[clj file]

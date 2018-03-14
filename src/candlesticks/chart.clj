@@ -1,6 +1,6 @@
-(ns chart
+(ns candlesticks.chart
   (:require
-    [date :refer [duration divide add between? ->str day-of-month]]))
+    [candlesticks.date :refer [duration divide add between? ->str day-of-month]]))
 
 (defn- date-range
   [quantity start end]

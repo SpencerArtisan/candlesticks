@@ -1,5 +1,5 @@
-(ns trip
-  (:require [date :refer [->date ->str]]
+(ns candlesticks.trip
+  (:require [candlesticks.date :refer [->date ->str]]
             [clojure.java.io :as io]))
 
 (defn add-trip

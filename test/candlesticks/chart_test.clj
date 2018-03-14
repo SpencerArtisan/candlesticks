@@ -1,8 +1,8 @@
-(ns chart-test
+(ns candlesticks.chart-test
   (:require 
-    [chart :as subject]
-    [expectations :refer [expect]]
-    [date :refer [->date]]))
+    [candlesticks.chart :as subject]
+    [candlesticks.date :refer [->date]]
+    [expectations :refer [expect]]))
 
 (def jan1 (->date "1/1/2018"))
 (def jan31 (->date "31/1/2018"))

@@ -1,6 +1,6 @@
-(ns date-test
+(ns candlesticks.date-test
   (:require 
-    [date :as subject]
+    [candlesticks.date :as subject]
     [expectations :refer [expect]]))
 
 (def jan31 (subject/->date "31/01/2018"))

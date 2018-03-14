@@ -1,13 +1,13 @@
-(ns candlestick
-  (:require [date :refer [->date ->duration now add]]
-            [clojure.java.io :as io]
-            [chart :as chart]
-            [trip :as trip]))
+(ns candlesticks.core
+  (:require [candlesticks.date :refer [->date ->duration now add]]
+            [candlesticks.chart :as chart]
+            [candlesticks.trip :as trip]
+            [clojure.java.io :as io]))
 
 (defn draw-chart
   [trips args]
   (->> trips
-       (chart/chart 116 (now) (add (now) (->duration 9 :month)))))
+       (chart/chart 117 (now) (add (now) (->duration 9 :month)))))
 
 (defn add-trip
   [trips args]
