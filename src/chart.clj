@@ -3,13 +3,6 @@
     [java-time :as jt]))
 
 
-(def itinerary "
-Townsville │█
-Cornwall   │  ─██──
-Sicily     │        ─███──
-           ┼─────┬─────┬─────┬─
-             Mar   Apr   May")
-
 (defn- date-range
   [quantity start end]
   (let [days-between (jt/time-between (jt/local-date-time start) (jt/local-date-time end) :hours)

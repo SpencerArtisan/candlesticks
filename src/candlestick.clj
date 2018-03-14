@@ -4,13 +4,6 @@
             [chart :as chart]))
 
 
-(def itinerary "
-Townsville │█
-Cornwall   │  ─██──
-Sicily     │        ─███──
-           ┼─────┬─────┬─────┬─
-             Mar   Apr   May")
-  
 (defn add-trip
   [trips [what start end]]
   (letfn [(->date [text] (time/local-date "d/M/yy" (str text "/18")))] 
@@ -38,7 +31,7 @@ Sicily     │        ─███──
     []))
 
 (def actions
-  {:draw (fn [args] (println (chart/chart 100 (time/local-date 2018) (time/local-date 2019) (load-trips))))
+  {:draw (fn [args] (println (chart/chart 100 (time/local-date 2018 3) (time/local-date 2019) (load-trips))))
    :add  (fn [args] (spit "trips.edn" (pr-str (map ->edn (add-trip (load-trips) args))))) 
    :list (fn [args] (println (clojure.string/join "\n" (map format-trip (load-trips)))))})
 
