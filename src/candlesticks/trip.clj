@@ -33,10 +33,18 @@
     {:what what :start (->date start) :end (->date end)}
     {:what what}))
 
+(defn sort-trips
+  [trips]
+  (sort-by (comp :java-date-time :start) trips))
+
 (defn load-trips
   []
   (if (.exists (io/file "trips.edn"))
-    (map ->trip (read-string (slurp "trips.edn")))
+    (->> "trips.edn"
+         slurp
+         read-string
+         (map ->trip)
+         sort-trips)
     []))
 
 (defn save-trips

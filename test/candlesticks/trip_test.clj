@@ -5,6 +5,8 @@
     [expectations :refer [expect]]))
 
 (def trip {:what "place" :start (->date "1/2/2018") :end (->date "3/4/2018")})
+(def jan-trip {:what "jan" :start (->date "1/1") :end (->date "20/1")})
+(def feb-trip {:what "feb" :start (->date "1/2") :end (->date "20/2")})
 (def undated-trip {:what "place"})
 
 (expect []
@@ -34,3 +36,6 @@
 
 (expect undated-trip
         (subject/->trip (subject/->edn undated-trip)))
+
+(expect [jan-trip feb-trip]
+        (subject/sort-trips [feb-trip jan-trip]))
