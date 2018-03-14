@@ -4,19 +4,29 @@
 
 (defn add-trip
   [trips [what start end]]
-  (conj trips {:what what :start (->date start) :end (->date end)}))
+  (let [trip (if (and start end)
+               {:what what :start (->date start) :end (->date end)}
+               {:what what})]
+    (conj trips trip)))
 
 (defn format-trip
   [{:keys [what start end]}]
-  (format "%-18s%s - %s" what (->str start :short) (->str end :short)))
+  (if (and start end) 
+    (format "%-14s%s - %s" what (->str start :short) (->str end :short))
+    what))
+
 
 (defn ->edn
   [{:keys [what start end]}]
-  [what (->str start :long) (->str end :long)]) 
+  (if (and start end) 
+    [what (->str start :long) (->str end :long)] 
+    [what]))
 
 (defn ->trip
   [[what start end]]
-  {:what what :start (->date start) :end (->date end)})
+  (if (and start end) 
+    {:what what :start (->date start) :end (->date end)}
+    {:what what}))
 
 (defn load-trips
   []
