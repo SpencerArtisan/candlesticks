@@ -2,11 +2,11 @@
   (:require 
     [chart :as subject]
     [expectations :refer [expect]]
-    [java-time :refer [local-date]]))
+    [date :refer [->date]]))
 
-(def jan1 (local-date 2018 1 1))
-(def jan31 (local-date 2018 1 31))
-(def feb28 (local-date 2018 2 28))
+(def jan1 (->date "1/1/2018"))
+(def jan31 (->date "31/1/2018"))
+(def feb28 (->date "28/2/2018"))
 (def jan-townsville {:what "Townsville" :start jan1 :end jan31})
 
 (expect " ┼──┬─"
@@ -18,7 +18,7 @@
 (expect " 4  14 24"
         (subject/date-row 9 jan1 jan31))
 
-(expect " 7  27 15"
+(expect " 7  26 14"
         (subject/date-row 9 jan1 feb28))
 
 (expect " Jan       "
@@ -32,14 +32,14 @@
 
 (expect "
               ┼──┬──┬─
-              7  27 15
+              7  26 14
               Jan  Feb  "
         (subject/chart 9 jan1 feb28 []))
 
 (expect "
 Townsville    │█████     
               ┼──┬──┬─
-              7  27 15
+              7  26 14
               Jan  Feb  "
         (subject/chart 9 jan1 feb28 [jan-townsville]))
 

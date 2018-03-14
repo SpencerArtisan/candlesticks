@@ -9,6 +9,7 @@
 (def feb3 (subject/->date "3/2"))
 (def a-day (subject/duration feb1 feb2))
 (def two-days (subject/duration feb1 feb3))
+(def third-of-a-day (subject/divide (subject/duration feb1 feb2) 3))
 
 (expect "Jan"
         (subject/->str jan31 :month))

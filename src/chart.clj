@@ -9,7 +9,7 @@
                       (if (neg? q)
                         res
                         (recur (- q 1) (add date unit-duration) (conj res date))))]
-    (build-range quantity start) []))
+    (build-range quantity start [])))
 
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
