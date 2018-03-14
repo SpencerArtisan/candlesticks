@@ -1,26 +1,22 @@
 (ns trip
-  (:require [java-time :as time]
+  (:require [date :refer [->date ->str]]
             [clojure.java.io :as io]))
 
 (defn add-trip
   [trips [what start end]]
-  (letfn [(->date [text] (time/local-date "d/M/yy" (str text "/18")))] 
-    (conj trips {:what what :start (->date start) :end (->date end)})))
+  (conj trips {:what what :start (->date start) :end (->date end)}))
 
 (defn format-trip
   [{:keys [what start end]}]
-  (letfn [(->str [date] (time/format "d MMM" date))]
-    (str (format "%-10s" what) (->str start) " - " (->str end))))
+  (format "%-10s%s - %s" what (->str start :short) (->str end :short)))
 
 (defn ->edn
   [{:keys [what start end]}]
-  (letfn [(->str [date] (time/format "dd/MM/yyyy" date))]
-    [what (->str start) (->str end)])) 
+  [what (->str start :long) (->str end :long)]) 
 
 (defn ->trip
   [[what start end]]
-  (letfn [(->date [text] (time/local-date "dd/MM/yyyy" text))]
-    {:what what :start (->date start) :end (->date end)}))
+  {:what what :start (->date start) :end (->date end)})
 
 (defn load-trips
   []

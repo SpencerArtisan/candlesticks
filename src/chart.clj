@@ -1,6 +1,6 @@
 (ns chart
   (:require
-    [java-time :as jt]))
+    [date :refer [duration]]))
 
 (defn- date-range
   [quantity start end]

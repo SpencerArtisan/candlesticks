@@ -8,14 +8,25 @@
 
 (defrecord Date [java-date-time])
 
+(defrecord Duration [hours])
+
 (defn ->date
   [text]
   (let [is-year-missing (re-find #"^[\d]*/[\d]*$" text)
-        text (if is-year-missing (str text "/2018") text)]
-    (->Date (jt/local-date "d/M/yyyy" text)))) 
+        text (if is-year-missing (str text "/2018") text)
+        text (str text " 00:00:00")]
+    (->Date (jt/local-date-time "d/M/yyyy HH:mm:ss" text)))) 
 
 (defn ->str
   [date format]
   (let [format-string (format formats)]
     (jt/format format-string (:java-date-time date))))
 
+(defn duration
+  [start end]
+  (->Duration 
+    (jt/time-between (:java-date-time start) (:java-date-time end) :hours)))
+
+(defn add
+  [start period]
+  (->Date (jt/plus (:java-date-time start) (jt/hours (:hours period)))))

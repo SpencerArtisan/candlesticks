@@ -1,10 +1,10 @@
 (ns trip-test
   (:require 
     [trip :as subject]
-    [expectations :refer [expect]]
-    [java-time :refer [local-date]]))
+    [date :refer [->date]]
+    [expectations :refer [expect]]))
 
-(def trip {:what "place" :start (local-date 2018 2 1) :end (local-date 2018 4 3)})
+(def trip {:what "place" :start (->date "1/2/2018") :end (->date "3/4/2018")})
 
 (expect [trip]
         (subject/add-trip [] ["place" "1/2" "3/4"]))
