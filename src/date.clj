@@ -4,7 +4,8 @@
 
 (def formats
   {:short "d MMM"
-   :long "dd/MM/yyyy"})
+   :long "dd/MM/yyyy"
+   :month "MMM"})
 
 (defrecord Date [java-date-time])
 
@@ -39,3 +40,8 @@
   [date start end]
   (not (or (jt/before? (:java-date-time date) (:java-date-time start))
            (jt/after? (:java-date-time date) (:java-date-time end)))))
+
+(defn day-of-month
+  [date]
+  (jt/as (:java-date-time date) :day-of-month))
+

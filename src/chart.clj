@@ -1,6 +1,6 @@
 (ns chart
   (:require
-    [date :refer [duration divide add]]))
+    [date :refer [duration divide add between? ->str day-of-month]]))
 
 (defn- date-range
   [quantity start end]
@@ -14,7 +14,7 @@
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
   (let [dates (date-range width start end)
-        in-trip (map #(not (or (jt/before? % (jt/local-date-time trip-start)) (jt/after? % (jt/local-date-time trip-end)))) dates)
+        in-trip (map #(between? % trip-start trip-end) dates)
         bars (map #(if % "█" " ") in-trip)]
     (apply str (format "%-14s" what) "│" bars)))
 
@@ -25,7 +25,7 @@
 (defn date-row
   [width start end]
   (let [dates (date-range width start end)
-        days  (map #(jt/as % :day-of-month) dates)
+        days  (map day-of-month dates)
         partitioned-days (partition 3 days)
         labels (map #(format " %-2d" (second %)) partitioned-days)]
     (apply str labels)))
@@ -33,7 +33,7 @@
 (defn month-row
   [width start end]
   (let [dates (date-range width start end)
-        month-names (map #(jt/format "MMM" %) dates) 
+        month-names (map #(->str % :month) dates) 
         month-groups (partition-by identity month-names)
         labels (map #(format (str "%-" (count %) "s") (first %)) month-groups)] 
     (apply str " " labels)))

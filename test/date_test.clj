@@ -10,6 +10,12 @@
 (def a-day (subject/duration feb1 feb2))
 (def two-days (subject/duration feb1 feb3))
 
+(expect "Jan"
+        (subject/->str jan31 :month))
+
+(expect "Feb"
+        (subject/->str feb1 :month))
+
 (expect "31 Jan"
         (subject/->str jan31 :short))
 
@@ -32,7 +38,22 @@
         (subject/divide two-days 2))
 
 (expect true
+        (subject/between? feb1 feb1 feb3))
+
+(expect true
+        (subject/between? feb3 feb1 feb3))
+
+(expect true
         (subject/between? feb2 feb1 feb3))
 
 (expect false
         (subject/between? feb1 feb2 feb3))
+
+(expect false
+        (subject/between? feb3 feb1 feb2))
+
+(expect 31
+        (subject/day-of-month jan31))
+
+(expect 1
+        (subject/day-of-month feb1))
