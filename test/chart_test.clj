@@ -6,6 +6,7 @@
 
 (def jan1 (local-date 2018 1 1))
 (def jan31 (local-date 2018 1 31))
+(def feb28 (local-date 2018 2 28))
 
 (expect " ┼──┬─"
         (subject/x-axis-row 6))
@@ -15,5 +16,14 @@
 
 (expect " 4  14 24"
         (subject/date-row 9 jan1 jan31))
+
+(expect " 7  27 15"
+        (subject/date-row 9 jan1 feb28))
+
+(expect " Jan       "
+        (subject/month-row 9 jan1 jan31))
+
+(expect " Jan  Feb  "
+        (subject/month-row 9 jan1 feb28))
 
 

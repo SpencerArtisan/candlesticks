@@ -1,6 +1,7 @@
 (ns chart
   (:require
-    [java-time :refer [after? as minus plus multiply-by days hours time-between local-date-time]]))
+    [java-time :as jt]))
+
 
 (def itinerary "
 Townsville │█
@@ -11,13 +12,13 @@ Sicily     │        ─███──
 
 (defn- date-range
   [quantity start end]
-  (let [days-between (time-between (local-date-time start) (local-date-time end) :hours)
+  (let [days-between (jt/time-between (jt/local-date-time start) (jt/local-date-time end) :hours)
         unit-days    (/ days-between quantity)
         build-range (fn [q date res]
                       (if (neg? q)
                         res
-                        (recur (- q 1) (plus date (hours unit-days)) (conj res date))))]
-    (build-range quantity (local-date-time start) [])))
+                        (recur (- q 1) (jt/plus date (jt/hours unit-days)) (conj res date))))]
+    (build-range quantity (jt/local-date-time start) [])))
 
 (defn x-axis-row
   [width]
@@ -26,7 +27,16 @@ Sicily     │        ─███──
 (defn date-row
   [width start end]
   (let [dates (date-range width start end)
-        days  (map #(as % :day-of-month) dates)
+        days  (map #(jt/as % :day-of-month) dates)
         partitioned-days (partition 3 days)
         labels (map #(format " %-2d" (second %)) partitioned-days)]
     (apply str labels)))
+
+(defn month-row
+  [width start end]
+  (let [dates (date-range width start end)
+        month-names (map #(jt/format "MMM" %) dates) 
+        month-groups (partition-by identity month-names)
+        labels (map #(format (str "%-" (count %) "s") (first %)) month-groups)] 
+    (apply str " " labels)))
+    
