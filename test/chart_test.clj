@@ -26,6 +26,9 @@
 (expect " Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
+(expect "Townsville    │█████     "
+        (subject/trip-row 9 jan1 feb28 {:what "Townsville" :start jan1 :end jan31}))
+
 (expect "
  ┼──┬──┬─
  7  27 15

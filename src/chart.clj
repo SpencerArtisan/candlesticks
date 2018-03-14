@@ -20,6 +20,13 @@ Sicily     │        ─███──
                         (recur (- q 1) (jt/plus date (jt/hours unit-days)) (conj res date))))]
     (build-range quantity (jt/local-date-time start) [])))
 
+(defn trip-row
+  [width start end {what :what trip-start :start trip-end :end}]
+  (let [dates (date-range width start end)
+        in-trip (map #(not (or (jt/before? % (jt/local-date-time trip-start)) (jt/after? % (jt/local-date-time trip-end)))) dates)
+        bars (map #(if % "█" " ") in-trip)]
+    (apply str (format "%-14s" what) "│" bars)))
+
 (defn x-axis-row
   [width]
   (str " ┼─" (apply str (repeat (dec (/ width 3))  "─┬─"))))
