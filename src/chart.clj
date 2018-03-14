@@ -15,9 +15,11 @@
   [width start end {what :what trip-start :start trip-end :end}]
   (if (and trip-start trip-end)
     (let [dates (date-range width start end)
-          in-trip (map #(between? % trip-start trip-end) dates)
-          bars (map #(if % "█" " ") (drop 1 in-trip))]
-      (apply str (format "%-14s" what) "│" bars))
+          in-trip? #(between? % trip-start trip-end)
+          in-trip (map in-trip? dates)
+          bar (map #(if % "█" " ") (drop 1 in-trip))
+          trimmed-bar (clojure.string/trimr (apply str bar))] 
+      (str " │" trimmed-bar what))
     what))
 
 (defn x-axis-row
@@ -44,7 +46,6 @@
   [width start end trips]
   (let [trip-rows (map (partial trip-row width start end) trips)
         axis [(x-axis-row width) (date-row width start end) (month-row width start end)]
-        indented-axis (map (partial str "             ") axis)
-        all-rows (flatten ["" trip-rows indented-axis])]
+        all-rows (flatten ["" trip-rows axis])]
     (clojure.string/join "\n" all-rows)))
   

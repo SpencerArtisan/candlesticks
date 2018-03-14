@@ -39,6 +39,24 @@
         (subject/divide two-days 2))
 
 (expect true
+        (subject/before? feb1 feb2))
+
+(expect false
+        (subject/before? feb1 feb1))
+
+(expect false
+        (subject/before? feb2 feb1))
+
+(expect false
+        (subject/after? feb1 feb2))
+
+(expect false
+        (subject/after? feb1 feb1))
+
+(expect true
+        (subject/after? feb2 feb1))
+
+(expect true
         (subject/between? feb1 feb1 feb3))
 
 (expect true

@@ -48,10 +48,17 @@
   [period divisor]
   (->Duration (/ (:hours period) divisor)))
 
+(defn before?
+  [date other]
+  (jt/before? (:java-date-time date) (:java-date-time other)))
+
+(defn after?
+  [date other]
+  (jt/after? (:java-date-time date) (:java-date-time other)))
+
 (defn between?
   [date start end]
-  (not (or (jt/before? (:java-date-time date) (:java-date-time start))
-           (jt/after? (:java-date-time date) (:java-date-time end)))))
+  (not (or (before? date start) (after? date end))))
 
 (defn day-of-month
   [date]
