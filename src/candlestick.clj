@@ -37,7 +37,7 @@ Sicily     │        ─███──
     []))
 
 (def actions
-  {:draw #(println itinerary)
+  {:draw (fn [args] (println itinerary))
    :add  (fn [args] (spit "trips.edn" (pr-str (map ->edn (add-trip (load-trips) args))))) 
    :list (fn [args] (println (clojure.string/join "\n" (map format-trip (load-trips)))))})
 
