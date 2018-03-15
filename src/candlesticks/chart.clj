@@ -2,6 +2,10 @@
   (:require
     [candlesticks.date :refer [duration divide add between? ->str day-of-month]]))
 
+(defn colour
+  [code text]
+  (str "\033[" code "m" text "\033[0m"))
+
 (defn- date-range
   [quantity start end]
   (let [unit-duration (divide (duration start end) quantity)
@@ -19,8 +23,8 @@
           in-trip (map in-trip? dates)
           bar (map #(if % "█" " ") (drop 1 in-trip))
           trimmed-bar (clojure.string/trimr (apply str bar))] 
-      (str " │" trimmed-bar what))
-    (str "< " what " >")))
+      (str " │" (colour 34 trimmed-bar) " " (colour 36 what)))
+    (colour 36 (str "< " what " >"))))
 
 (defn x-axis-row
   [width]

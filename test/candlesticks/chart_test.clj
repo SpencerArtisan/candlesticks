@@ -28,10 +28,10 @@
 (expect " Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
-(expect " │████Townsville"
+(expect (str " │" (subject/colour 34 "████") " " (subject/colour 36 "Townsville"))
         (subject/trip-row 9 jan1 feb28 jan-townsville))
 
-(expect "USA"
+(expect (subject/colour 36 "< USA >")
         (subject/trip-row 9 jan1 feb28 undated-usa))
 
 (expect "
@@ -40,11 +40,12 @@
  Jan  Feb  "
         (subject/chart 9 jan1 feb28 []))
 
-(expect "
- │████Townsville
+(expect 
+  (str "\n │" (subject/colour 34 "████") " " (subject/colour 36 "Townsville")
+    "
  ┼──┬──┬──
  7  26 14
- Jan  Feb  "
-        (subject/chart 9 jan1 feb28 [jan-townsville]))
+ Jan  Feb  ")
+  (subject/chart 9 jan1 feb28 [jan-townsville]))
 
 
