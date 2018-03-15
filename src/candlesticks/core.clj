@@ -14,7 +14,7 @@
   [args]
   (let [start (now)
         end   (add start (->duration 9 :month))]
-    (with-trips (comp println (partial chart/chart 117 start end)))))
+    (with-trips (comp println (partial chart/colour-chart 117 start end)))))
 
 (defn add-trip
   [args]

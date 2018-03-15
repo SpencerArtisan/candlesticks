@@ -7,6 +7,7 @@
 (def jan1 (->date "1/1/2018"))
 (def jan31 (->date "31/1/2018"))
 (def feb28 (->date "28/2/2018"))
+(def may31 (->date "31/5/2018"))
 (def jan-townsville {:what "Townsville" :start jan1 :end jan31})
 (def undated-usa {:what "USA"})
 
@@ -28,7 +29,10 @@
 (expect " Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
-(expect (str " │" (subject/colour 34 "████") " " (subject/colour 36 "Townsville"))
+(expect (str " │ Townsville │             │             ")
+        (subject/trip-row 40 feb28 may31 jan-townsville))
+
+(expect (str " │████ Townsville")
         (subject/trip-row 9 jan1 feb28 jan-townsville))
 
 (expect (subject/colour 36 "< USA >")
@@ -40,12 +44,23 @@
  Jan  Feb  "
         (subject/chart 9 jan1 feb28 []))
 
-(expect 
-  (str "\n │" (subject/colour 34 "████") " " (subject/colour 36 "Townsville")
-    "
+(expect "\n │████ Townsville
  ┼──┬──┬──
  7  26 14
- Jan  Feb  ")
+ Jan  Feb  "
   (subject/chart 9 jan1 feb28 [jan-townsville]))
 
+(expect "ABClo world"
+        (subject/replace-at 0 "hello world" "ABC"))
 
+(expect "hellABCorld"
+        (subject/replace-at 4 "hello world" "ABC"))
+
+(expect "hello woABC"
+        (subject/replace-at 8 "hello world" "ABC"))
+
+(expect "hello worlABC"
+        (subject/replace-at 10 "hello world" "ABC"))
+
+(expect "hello world ABC"
+        (subject/replace-at 12 "hello world" "ABC"))
