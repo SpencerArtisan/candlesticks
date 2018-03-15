@@ -5,8 +5,8 @@
     [expectations :refer [expect]]))
 
 (def trip {:what "place" :start (->date "1/2/2018") :end (->date "3/4/2018")})
-(def jan-trip {:what "jan" :start (->date "1/1") :end (->date "20/1")})
-(def feb-trip {:what "feb" :start (->date "1/2") :end (->date "20/2")})
+(def jan-trip {:what "place" :start (->date "1/1") :end (->date "20/1")})
+(def feb-trip {:what "place" :start (->date "1/2") :end (->date "20/2")})
 (def undated-trip {:what "place"})
 
 (expect []
@@ -17,6 +17,15 @@
 
 (expect [trip]
         (subject/delete-trip [trip] ["wibble"]))
+
+(expect [feb-trip]
+        (subject/shift-trip [jan-trip] ["place" 31]))
+
+(expect [jan-trip]
+        (subject/shift-trip [feb-trip] ["place" -31]))
+
+(expect [trip]
+        (subject/shift-trip [trip] ["wibble" 31]))
 
 (expect [undated-trip]
         (subject/add-trip [] ["place"]))
@@ -39,3 +48,6 @@
 
 (expect [jan-trip feb-trip]
         (subject/sort-trips [feb-trip jan-trip]))
+
+(expect [undated-trip jan-trip feb-trip]
+        (subject/sort-trips [feb-trip undated-trip jan-trip]))

@@ -21,6 +21,12 @@
       (trip/delete-trip args)
       (trip/save-trips)))
 
+(defn shift-trip
+  [trips [pattern days]]
+  (-> trips
+      (trip/shift-trip [pattern (read-string days)])
+      (trip/save-trips)))
+
 (defn list-trips
   [trips args]
   (->> trips
@@ -31,6 +37,7 @@
   {:draw   draw-chart
    :add    add-trip
    :delete delete-trip
+   :shift  shift-trip
    :list   list-trips})
 
 (defn -main [action & args]

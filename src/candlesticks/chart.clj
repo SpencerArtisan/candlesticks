@@ -20,7 +20,7 @@
           bar (map #(if % "█" " ") (drop 1 in-trip))
           trimmed-bar (clojure.string/trimr (apply str bar))] 
       (str " │" trimmed-bar what))
-    what))
+    (str "< " what " >")))
 
 (defn x-axis-row
   [width]
