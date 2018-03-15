@@ -32,6 +32,10 @@
     (format "%-14s%s - %s" what (->str start :short) (->str end :short))
     what))
 
+(defn format-trips
+  [trips]
+  (clojure.string/join "\n" (map format-trip trips)))
+
 (defn ->edn
   [{:keys [what start end]}]
   (if (and start end) 

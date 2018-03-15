@@ -4,36 +4,33 @@
             [candlesticks.trip :as trip]
             [clojure.java.io :as io]))
 
+(defn with-trips
+  [trip-mutator]
+  (some-> (trip/load-trips)
+          (trip-mutator)
+          (trip/save-trips)))
+
 (defn draw-chart
   [args]
-  (->> (trip/load-trips)
-       (chart/chart 117 (now) (add (now) (->duration 9 :month)))
-       println))
+  (let [start (now)
+        end   (add start (->duration 9 :month))]
+    (with-trips (comp println (partial chart/chart 117 start end)))))
 
 (defn add-trip
   [args]
-  (-> (trip/load-trips)
-      (trip/add-trip args)
-      (trip/save-trips)))
+  (with-trips #(trip/add-trip % args)))
 
 (defn delete-trip
   [args]
-  (-> (trip/load-trips)
-      (trip/delete-trip args)
-      (trip/save-trips)))
+  (with-trips #(trip/delete-trip % args)))
 
 (defn shift-trip
   [[pattern days]]
-  (-> (trip/load-trips)
-      (trip/shift-trip [pattern (read-string days)])
-      (trip/save-trips)))
+  (with-trips #(trip/shift-trip % [pattern (read-string days)])))
 
 (defn list-trips
   [args]
-  (->> (trip/load-trips)
-       (map trip/format-trip)
-       (clojure.string/join "\n")
-       println))
+  (with-trips (comp println trip/format-trips)))
 
 (def actions
   {:draw   draw-chart
@@ -43,8 +40,8 @@
    :list   list-trips})
 
 (defn -main [action & args]
-  (some-> action
-          keyword
-          actions
-          (apply [args])))
+  (-> action
+      keyword
+      actions
+      (apply [args])))
 
