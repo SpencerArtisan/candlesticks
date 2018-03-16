@@ -1,8 +1,7 @@
 (ns candlesticks.chart
   (:require
-    [candlesticks.date :refer [duration divide add between? ->str day-of-month]]
+    [candlesticks.date :refer [between divide add between? ->str day-of-month]]
     [candlesticks.util :refer [replace-at]]))
-
 
 (defn colour
   [code text]
@@ -10,7 +9,7 @@
 
 (defn- date-range
   [quantity start end]
-  (let [unit-duration (divide (duration start end) quantity)
+  (let [unit-duration (divide (between start end) quantity)
         build-range (fn [q date res]
                       (if (neg? q)
                         res

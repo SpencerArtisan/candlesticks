@@ -11,7 +11,7 @@
    {:month (* 24 (/ 365 12))
     :day 24})
 
-(defn ->date
+(defn date
   [text]
   (let [is-year-missing (re-find #"^[\d]*/[\d]*$" text)
         text (if is-year-missing (str text "/2018") text)
@@ -29,14 +29,13 @@
   (let [format-string (format formats)]
     (jt/format format-string date)))
 
-(defn ->duration
+(defn duration
   [n unit]
   (jt/hours (* n (unit hours-per-unit))))
 
-(defn duration
+(defn between
   [start end]
-  (jt/hours
-    (jt/time-between start end :hours)))
+  (jt/hours (jt/time-between start end :hours)))
 
 (defn add
   [start period]
@@ -46,17 +45,9 @@
   [period divisor]
   (jt/hours (/ (jt/as period :hours) divisor)))
 
-(defn before?
-  [date other]
-  (jt/before? date other))
-
-(defn after?
-  [date other]
-  (jt/after? date other))
-
 (defn between?
   [date start end]
-  (not (or (before? date start) (after? date end))))
+  (not (or (jt/before? date start) (jt/after? date end))))
 
 (defn day-of-month
   [date]

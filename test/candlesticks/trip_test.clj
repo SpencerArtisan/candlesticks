@@ -1,12 +1,12 @@
 (ns candlesticks.trip-test
   (:require 
     [candlesticks.trip :as subject]
-    [candlesticks.date :refer [->date]]
+    [candlesticks.date :refer [date]]
     [expectations :refer [expect]]))
 
-(def trip {:what "place" :start (->date "1/2/2018") :end (->date "3/4/2018")})
-(def jan-trip {:what "place" :start (->date "1/1") :end (->date "20/1")})
-(def feb-trip {:what "place" :start (->date "1/2") :end (->date "20/2")})
+(def trip {:what "place" :start (date "1/2/2018") :end (date "3/4/2018")})
+(def jan-trip {:what "place" :start (date "1/1") :end (date "20/1")})
+(def feb-trip {:what "place" :start (date "1/2") :end (date "20/2")})
 (def undated-trip {:what "place"})
 
 (expect []

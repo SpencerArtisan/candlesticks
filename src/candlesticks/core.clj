@@ -1,5 +1,5 @@
 (ns candlesticks.core
-  (:require [candlesticks.date :refer [->date ->duration now add]]
+  (:require [candlesticks.date :refer [date duration now add]]
             [candlesticks.chart :as chart]
             [candlesticks.trip :as trip]
             [clojure.java.io :as io]))
@@ -15,7 +15,7 @@
 (defn draw-chart
   [& _]
   (let [start (now)
-        end   (add start (->duration 9 :month))]
+        end   (add start (duration 9 :month))]
     (with-trips (comp println (partial chart/colour-chart 117 start end)))))
 
 (defn add-trip
