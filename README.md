@@ -26,7 +26,7 @@ Trips may be added, adjusted and visualised. For example:
 
 Usage
 -----
-This program uses Clojure CLI tool alone.  No Boot or Leiningen.
+This program uses Clojure CLI tool alone. No Boot or Leiningen.
 
 To run
 
@@ -34,4 +34,6 @@ To run
 
 To test
 
-```clj -C:test -i test/candlesticks/[clj test file]```
+```clj -C:test -i test/candlesticks/*.clj```
+
+The batch file ```autotest.sh``` can be used to automatically run tests on file changes. This relies on having fswatch installed.
