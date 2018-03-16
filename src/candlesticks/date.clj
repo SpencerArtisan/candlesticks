@@ -11,8 +11,6 @@
    {:month (* 24 (/ 365 12))
     :day 24})
 
-(defrecord Duration [hours])
-
 (defn ->date
   [text]
   (let [is-year-missing (re-find #"^[\d]*/[\d]*$" text)
@@ -33,20 +31,20 @@
 
 (defn ->duration
   [n unit]
-  (->Duration (* n (unit hours-per-unit))))
+  (jt/hours (* n (unit hours-per-unit))))
 
 (defn duration
   [start end]
-  (->Duration 
+  (jt/hours
     (jt/time-between start end :hours)))
 
 (defn add
   [start period]
-  (jt/plus start (jt/hours (:hours period))))
+  (jt/plus start period))
 
 (defn divide
   [period divisor]
-  (->Duration (/ (:hours period) divisor)))
+  (jt/hours (/ (jt/as period :hours) divisor)))
 
 (defn before?
   [date other]
