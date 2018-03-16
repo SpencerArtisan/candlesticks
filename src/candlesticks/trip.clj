@@ -3,7 +3,7 @@
             [clojure.java.io :as io]))
 
 (defn add-trip
-  [trips what start end]
+  [trips [what start end]]
   (let [trip (if (and start end)
                {:what what :start (->date start) :end (->date end)}
                {:what what})]

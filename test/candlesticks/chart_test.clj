@@ -49,18 +49,3 @@
  7  26 14
  Jan  Feb  "
   (subject/chart 9 jan1 feb28 [jan-townsville]))
-
-(expect "ABClo world"
-        (subject/replace-at 0 "hello world" "ABC"))
-
-(expect "hellABCorld"
-        (subject/replace-at 4 "hello world" "ABC"))
-
-(expect "hello woABC"
-        (subject/replace-at 8 "hello world" "ABC"))
-
-(expect "hello worlABC"
-        (subject/replace-at 10 "hello world" "ABC"))
-
-(expect "hello world ABC"
-        (subject/replace-at 12 "hello world" "ABC"))
