@@ -25,7 +25,7 @@
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
   (if (and trip-start trip-end)
-      (let [dates (rest (date-range width start end))
+      (let [dates (drop-last 4 (rest (date-range width start end)))
             ->char (fn 
                      [i _]
                      (cond (between? (nth dates i) trip-start trip-end) "█"
@@ -33,14 +33,14 @@
                                 (< i (dec (count dates)))
                                 (> (day-of-month (nth dates i)) (day-of-month (nth dates (inc i))))) "¦"
                            :else " "))
-            bar (apply str " │" (map-indexed ->char dates))
+            bar (apply str "  " (map-indexed ->char dates))
             bar-end (or (clojure.string/last-index-of bar "█") 1)]
         (replace-at (+ 2 bar-end) bar what))
-      (str "< " what " > ")))
+      (str "< " what " >")))
 
 (defn x-axis-row
   [width]
-  (apply str " ┼──" (repeat (dec (/ width 3))  "┬──")))
+  (apply str " " (repeat (/ width 3)  "┬──")))
 
 (defn date-row
   [width start end]
