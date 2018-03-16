@@ -68,7 +68,7 @@
   ([action & args]
    (if-let [[func :as action-vector] ((keyword action) actions)]
      (try
-       (func [args])
+       (func (vec args))
        (catch Exception e 
          (do
            (println "Command failed")

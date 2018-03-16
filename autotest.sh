@@ -1,4 +1,6 @@
 echo "Test run initiated..."
-clj -C:test -i test/candlesticks/*.clj
+ls test/candlesticks/*_test.clj | xargs -n 1 clj -C:test -i
+
 echo "Tests will be re-run as files change"
-fswatch -o -i "clj$" -e ".*" . | xargs -n 1 sh -c 'echo "\nRunning tests..." && clj -C:test -i test/candlesticks/*.clj'
+
+fswatch -o -i "clj$" -e ".*" . | xargs -n 1 sh -c 'echo "\nRunning tests..." && ls test/candlesticks/*_test.clj | xargs -n 1 clj -C:test -i'

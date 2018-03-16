@@ -34,6 +34,6 @@ To run
 
 To test
 
-```clj -C:test -i test/candlesticks/*.clj```
+```clj -C:test -i test/candlesticks/[test file]```
 
 The batch file ```autotest.sh``` can be used to automatically run tests on file changes. This relies on having fswatch installed.
