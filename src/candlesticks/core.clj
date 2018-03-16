@@ -66,15 +66,13 @@
   ([]
    (help))
   ([action & args]
-   (try
-     (-> action
-         keyword
-         actions
-         first
-         (apply [args]))
-     (catch Exception e 
-       (do
-         (println "Command failed")
-         (println (describe ((keyword action) actions)))
-         (println (.getMessage e)))))))
+   (if-let [[func :as action-vector] ((keyword action) actions)]
+     (try
+       (func [args])
+       (catch Exception e 
+         (do
+           (println "Command failed")
+           (println (describe action-vector))
+           (println (.getMessage e)))))
+     (println "Unknown command " action))))
 
