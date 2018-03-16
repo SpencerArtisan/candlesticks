@@ -20,7 +20,9 @@
   (let [is-year-missing (re-find #"^[\d]*/[\d]*$" text)
         text (if is-year-missing (str text "/2018") text)
         text (str text " 00:00:00")]
-    (->Date (jt/local-date-time "d/M/yyyy HH:mm:ss" text)))) 
+    (try
+      (->Date (jt/local-date-time "d/M/yyyy HH:mm:ss" text))
+      (catch Exception e (throw (Exception. "Invalid date format. Use dd/MM or dd/MM/yyyy."))))))
 
 (defn now
   []

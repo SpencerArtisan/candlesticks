@@ -4,6 +4,8 @@
             [candlesticks.trip :as trip]
             [clojure.java.io :as io]))
 
+(declare actions)
+
 (defn with-trips
   [trip-mutator]
   (some-> (trip/load-trips)
@@ -32,11 +34,13 @@
   [& _]
   (with-trips (comp println trip/format-trips)))
 
-(declare actions)
+(defn describe
+  [[_ usage description]] 
+  (format "    %-30s%s" usage description))
+
 (defn help 
   [& _]
-  (letfn [(->line [[func usage description]] (format "    %-30s%s" usage description))]
-    (doall (map #(println (->line %)) (vals actions)))))
+  (doall (map #(println (describe %)) (vals actions))))
 
 (def actions
   {:draw   [draw-chart                    
@@ -62,9 +66,15 @@
   ([]
    (help))
   ([action & args]
-   (-> action
-       keyword
-       actions
-       first
-       (apply [args]))))
+   (try
+     (-> action
+         keyword
+         actions
+         first
+         (apply [args]))
+     (catch Exception e 
+       (do
+         (println "Command failed")
+         (println (describe ((keyword action) actions)))
+         (println (.getMessage e)))))))
 
