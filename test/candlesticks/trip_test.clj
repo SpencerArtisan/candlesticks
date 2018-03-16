@@ -7,6 +7,7 @@
 (def trip {:what "place" :start (date "1/2/2018") :end (date "3/4/2018")})
 (def jan-trip {:what "place" :start (date "1/1") :end (date "20/1")})
 (def feb-trip {:what "place" :start (date "1/2") :end (date "20/2")})
+(def jan-feb-trip {:what "place" :start (date "1/1") :end (date "17/2")})
 (def undated-trip {:what "place"})
 
 (expect []
@@ -17,6 +18,9 @@
 
 (expect [trip]
         (subject/delete-trip [trip] ["wibble"]))
+
+(expect [jan-feb-trip]
+        (subject/extend-trip [jan-trip] ["place" 28]))
 
 (expect [feb-trip]
         (subject/shift-trip [jan-trip] ["place" 31]))

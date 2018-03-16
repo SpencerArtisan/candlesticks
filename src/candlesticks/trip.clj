@@ -1,5 +1,5 @@
 (ns candlesticks.trip
-  (:require [candlesticks.date :refer [date ->str add duration]]
+  (:require [candlesticks.date :refer [date ->str add add-days duration]]
             [clojure.java.io :as io]))
 
 (defn add-trip
@@ -17,13 +17,17 @@
   [trips [pattern]]
   (filter (complement #(starts-with % pattern)) trips))
 
+(defn extend-trip
+  [trips [pattern days]]
+  (let [extend (fn [trip] (-> trip
+                              (update :end #(add-days % days))))] 
+    (map #(if (starts-with % pattern) (extend %) %) trips)))
+
 (defn shift-trip
   [trips [pattern days]]
-  (let [change-date (fn [date] (add date (duration days :day)))
-        
-        shift (fn [trip] (-> trip
-                             (update :start change-date) 
-                             (update :end change-date)))]
+  (let [shift (fn [trip] (-> trip
+                             (update :start #(add-days % days)) 
+                             (update :end #(add-days % days))))] 
     (map #(if (starts-with % pattern) (shift %) %) trips)))
 
 (defn format-trip

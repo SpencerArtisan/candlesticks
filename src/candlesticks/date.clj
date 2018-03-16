@@ -41,6 +41,10 @@
   [start period]
   (jt/plus start period))
 
+(defn add-days
+  [date days]
+  (add date (duration days :day)))
+
 (defn divide
   [period divisor]
   (jt/hours (/ (jt/as period :hours) divisor)))

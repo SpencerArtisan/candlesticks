@@ -30,6 +30,10 @@
   [[pattern days]]
   (with-trips #(trip/shift-trip % [pattern (read-string days)])))
 
+(defn extend-trip
+  [[pattern days]]
+  (with-trips #(trip/extend-trip % [pattern (read-string days)])))
+
 (defn list-trips
   [& _]
   (with-trips (comp println trip/format-trips)))
@@ -52,6 +56,9 @@
    :delete [(juxt delete-trip draw-chart) 
             "delete [name]"             
             "Deletes a trip. You may enter just the start of the name."]
+   :extend [(juxt extend-trip draw-chart)  
+            "extend [name] [days]"       
+            "Increases the length of the trip (or decreases for negatives). You may enter just the start of the name."]
    :shift  [(juxt shift-trip draw-chart)  
             "shift [name] [days]"       
             "Moves the trip into the future (or past for negatives). You may enter just the start of the name."]
