@@ -50,7 +50,7 @@
 
 (defn sort-trips
   [trips]
-  (sort-by (comp :java-date-time :start) trips))
+  (sort-by :start trips))
 
 (defn load-trips
   []
