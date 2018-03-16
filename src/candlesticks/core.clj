@@ -11,7 +11,7 @@
           (trip/save-trips)))
 
 (defn draw-chart
-  [args]
+  [& _]
   (let [start (now)
         end   (add start (->duration 9 :month))]
     (with-trips (comp println (partial chart/colour-chart 117 start end)))))
@@ -29,19 +29,42 @@
   (with-trips #(trip/shift-trip % [pattern (read-string days)])))
 
 (defn list-trips
-  [args]
+  [& _]
   (with-trips (comp println trip/format-trips)))
 
-(def actions
-  {:draw   draw-chart
-   :add    (juxt add-trip draw-chart)
-   :delete (juxt delete-trip draw-chart)
-   :shift  (juxt shift-trip draw-chart)
-   :list   list-trips})
+(declare actions)
+(defn help 
+  [& _]
+  (letfn [(->line [[func usage description]] (format "    %-30s%s" usage description))]
+    (doall (map #(println (->line %)) (vals actions)))))
 
-(defn -main [action & args]
-  (-> action
-      keyword
-      actions
-      (apply [args])))
+(def actions
+  {:draw   [draw-chart                    
+            "draw"                      
+            "Draws a visual representation of your trips."]
+   :add    [(juxt add-trip draw-chart)    
+            "add [name] [start] [end]"  
+            "Adds a new trip to the map. eg. add USA 1/4 15/4. You may miss off dates for uncertain trips."]
+   :delete [(juxt delete-trip draw-chart) 
+            "delete [name]"             
+            "Deletes a trip. You may enter just the start of the name."]
+   :shift  [(juxt shift-trip draw-chart)  
+            "shift [name] [days]"       
+            "Moves the trip into the future (or past for negatives). You may enter just the start of the name."]
+   :list   [list-trips                    
+            "list"                      
+            "Lists all the trips."]
+   :help   [help                          
+            "help"                      
+            "Displays this page."]})
+
+(defn -main 
+  ([]
+   (help))
+  ([action & args]
+   (-> action
+       keyword
+       actions
+       first
+       (apply [args]))))
 
