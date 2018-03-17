@@ -1,32 +1,17 @@
 (ns candlesticks.chart
   (:require
-    [candlesticks.date :refer [between divide add between? ->str day-of-month]]
-    [candlesticks.util :refer [replace-at]]))
-
-(defn colour
-  [code text]
-  (str "\033[" code "m" text "\033[0m"))
-
-(defn- date-range
-  [quantity start end]
-  (let [unit-duration (divide (between start end) quantity)
-        build-range (fn [q date res]
-                      (if (neg? q)
-                        res
-                        (recur (- q 1) (add date unit-duration) (conj res date))))]
-    (build-range quantity start [])))
+    [candlesticks.date :refer [between divide add between? ->str day-of-month date-range]]
+    [candlesticks.util :refer [colour replace-at]]))
 
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
   (if (and trip-start trip-end)
-      (let [dates (drop-last 4 (rest (date-range width start end)))
-            ->char (fn 
-                     [i _]
-                     (cond (between? (nth dates i) trip-start trip-end) "█"
-                           (and 
-                                (< i (dec (count dates)))
-                                (> (day-of-month (nth dates i)) (day-of-month (nth dates (inc i))))) "¦"
-                           :else " "))
+      (let [dates (drop-last 2 (rest (date-range width start end)))
+            last-day-of-month? (fn [i] (> (day-of-month (nth dates i)) (day-of-month (nth dates (inc i)))))
+            ->char (fn [i _]
+                     (cond (between? (nth dates i) trip-start trip-end)           "█"
+                           (and (< i (dec (count dates))) (last-day-of-month? i)) "¦"
+                           :else                                                  " "))
             bar (apply str "  " (map-indexed ->char dates))
             bar-end (or (clojure.string/last-index-of bar "█") 1)]
         (replace-at (+ 2 bar-end) bar what))

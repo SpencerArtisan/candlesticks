@@ -11,18 +11,19 @@
    {:month (* 24 (/ 365 12))
     :day 24})
 
+(defn now
+  []
+  (jt/local-date-time))
+
 (defn date
   [text]
-  (let [is-year-missing (re-find #"^[\d]*/[\d]*$" text)
-        text (if is-year-missing (str text "/2018") text)
+  (let [is-year-missing? (re-find #"^[\d]*/[\d]*$" text)
+        year (jt/as (now) :year)
+        text (if is-year-missing? (str text "/" year) text)
         text (str text " 00:00:00")]
     (try
       (jt/local-date-time "d/M/yyyy HH:mm:ss" text)
       (catch Exception e (throw (Exception. "Invalid date format. Use dd/MM or dd/MM/yyyy."))))))
-
-(defn now
-  []
-  (jt/local-date-time))
 
 (defn ->str
   [date format]
@@ -57,3 +58,10 @@
   [date]
   (jt/as date :day-of-month))
 
+(defn date-range
+  [quantity start end]
+  (let [unit-duration (divide (between start end) quantity)]
+    (loop [q quantity date start res []]
+      (if (neg? q)
+        res
+        (recur (- q 1) (add date unit-duration) (conj res date))))))
