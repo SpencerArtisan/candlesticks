@@ -29,7 +29,7 @@
 (expect "Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
-(expect (str "¦ Townsville ¦             ¦          ")
+(expect (str "¦ Townsville ¦             ¦            ")
         (subject/trip-row 40 feb28 may31 jan-townsville))
 
 (expect (str "████¦Townsville")

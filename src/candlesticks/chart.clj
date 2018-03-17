@@ -6,9 +6,9 @@
 (defn trip-row
   [width start end {what :what trip-start :start trip-end :end}]
   (if (and trip-start trip-end)
-      (let [dates (drop-last 2 (date-range width start end))
+      (let [dates (date-range width start end)
             ->char (fn [[date next-date]]
-                     (cond (between? next-date trip-start trip-end)              "█"
+                     (cond (between? next-date trip-start trip-end)         "█"
                            (> (day-of-month date) (day-of-month next-date)) "¦"
                            :else                                            " "))
             bar (apply str (map ->char (partition 2 1 dates)))
