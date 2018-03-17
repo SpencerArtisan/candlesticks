@@ -11,28 +11,28 @@
 (def jan-townsville {:what "Townsville" :start jan1 :end jan31})
 (def undated-usa {:what "USA"})
 
-(expect " ┬──┬──"
+(expect "┬──┬──"
         (subject/x-axis-row 6))
 
-(expect " ┬──┬──┬──"
+(expect "┬──┬──┬──"
         (subject/x-axis-row 9))
 
-(expect " 4  14 24"
+(expect "4  14 24 "
         (subject/date-row 9 jan1 jan31))
 
-(expect " 7  26 14"
+(expect "7  26 14 "
         (subject/date-row 9 jan1 feb28))
 
-(expect " Jan       "
+(expect "Jan       "
         (subject/month-row 9 jan1 jan31))
 
-(expect " Jan  Feb  "
+(expect "Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
-(expect (str "   Townsville ¦             ¦           ")
+(expect (str "¦ Townsville ¦             ¦          ")
         (subject/trip-row 40 feb28 may31 jan-townsville))
 
-(expect (str "  ████ Townsville")
+(expect (str "████¦Townsville")
         (subject/trip-row 9 jan1 feb28 jan-townsville))
 
 (expect "< USA >"
@@ -40,12 +40,12 @@
 
 (expect "
  ┬──┬──┬──
- 7  26 14
+ 7  26 14 
  Jan  Feb  "
         (subject/chart 9 jan1 feb28 []))
 
-(expect "\n  ████ Townsville
+(expect "\n ████¦Townsville
  ┬──┬──┬──
- 7  26 14
+ 7  26 14 
  Jan  Feb  "
   (subject/chart 9 jan1 feb28 [jan-townsville]))
