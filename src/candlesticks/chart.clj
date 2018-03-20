@@ -1,20 +1,23 @@
 (ns candlesticks.chart
   (:require
     [candlesticks.date :refer [between divide add between? ->str day-of-month date-range]]
-    [candlesticks.util :refer [colour replace-at]]))
+    [candlesticks.util :refer [colour replace-at]]
+    [clojure.string :refer [last-index-of]]))
 
 (defn trip-row
-  [width start end {what :what trip-start :start trip-end :end}]
+  [width start end {what :what trip-start :start trip-end :end fixed :fixed}]
   (if (and trip-start trip-end)
       (let [dates (date-range width start end)
             ->char (fn [[date next-date]]
-                     (cond (between? next-date trip-start trip-end)         "█"
+                     (cond (between? next-date trip-start trip-end) (if fixed "█" "▓")
                            (> (day-of-month date) (day-of-month next-date)) "¦"
                            :else                                            " "))
             bar (apply str (map ->char (partition 2 1 dates)))
-            bar-end (or (clojure.string/last-index-of bar "█") 0)]
+            bar-end (or (last-index-of bar "█") (last-index-of bar "▓") 0)]
         (replace-at (+ 2 bar-end) bar what))
       (str "< " what " >")))
+;▓
+
 
 (defn x-axis-row
   [width]
@@ -47,6 +50,6 @@
   [width start end trips]
   (let [chart (chart width start end trips)
         replacements (concat (map (fn [trip] [(:what trip) 36]) trips)
-                             [["█" 34] ["<" 34] [">" 34] ["¦" 37]])]
+                             [["█" 31] ["▓" 34] ["<" 34] [">" 34] ["¦" 37]])]
     (reduce (fn [ch [text col]] (clojure.string/replace ch text (colour col text))) chart replacements)))
 

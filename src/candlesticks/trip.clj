@@ -5,7 +5,7 @@
 (defn add-trip
   [trips [what start end]]
   (let [trip (if (and start end)
-               {:what what :start (date start) :end (date end)}
+               {:what what :start (date start) :end (date end) :fixed false}
                {:what what})]
     (conj trips trip)))
 
@@ -17,18 +17,29 @@
   [trips [pattern]]
   (filter (complement #(starts-with % pattern)) trips))
 
+(defn modify-trip
+  [trips pattern modifier]
+  (map #(if (starts-with % pattern) (modifier %) %) trips))
+
 (defn extend-trip
   [trips [pattern days]]
-  (let [extend (fn [trip] (-> trip
-                              (update :end #(add-days % days))))] 
-    (map #(if (starts-with % pattern) (extend %) %) trips)))
+  (modify-trip trips 
+               pattern 
+               (fn [trip] (update trip :end #(add-days % days))))) 
 
 (defn shift-trip
   [trips [pattern days]]
-  (let [shift (fn [trip] (-> trip
-                             (update :start #(add-days % days)) 
-                             (update :end #(add-days % days))))] 
-    (map #(if (starts-with % pattern) (shift %) %) trips)))
+  (modify-trip trips 
+               pattern 
+               (fn [trip] (-> trip
+                              (update :start #(add-days % days)) 
+                              (update :end #(add-days % days)))))) 
+
+(defn fix-trip
+  [trips [pattern]]
+  (modify-trip trips 
+               pattern 
+               (fn [trip] (assoc trip :fixed true))))
 
 (defn format-trip
   [{:keys [what start end]}]
@@ -41,15 +52,15 @@
   (clojure.string/join "\n" (map format-trip trips)))
 
 (defn ->edn
-  [{:keys [what start end]}]
+  [{:keys [what start end fixed]}]
   (if (and start end) 
-    [what (->str start :long) (->str end :long)] 
+    [what (->str start :long) (->str end :long) fixed] 
     [what]))
 
 (defn ->trip
-  [[what start end]]
+  [[what start end fixed]]
   (if (and start end) 
-    {:what what :start (date start) :end (date end)}
+    {:what what :start (date start) :end (date end) :fixed (true? fixed)}
     {:what what}))
 
 (defn sort-trips

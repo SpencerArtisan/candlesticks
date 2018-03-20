@@ -30,6 +30,10 @@
   [[pattern days]]
   (with-trips #(trip/shift-trip % [pattern (read-string days)])))
 
+(defn fix-trip
+  [[pattern]]
+  (with-trips #(trip/fix-trip % [pattern])))
+
 (defn extend-trip
   [[pattern days]]
   (with-trips #(trip/extend-trip % [pattern (read-string days)])))
@@ -62,6 +66,9 @@
    :shift  [(juxt shift-trip draw-chart)  
             "shift [name] [days]"       
             "Moves the trip into the future (or past for negatives). You may enter just the start of the name."]
+   :fix    [(juxt fix-trip draw-chart)  
+            "fix [name]"       
+            "Flags the trip as having fixed dates. Simply acts as a visual indication on the chart. You may enter just the start of the name."]
    :list   [list-trips                    
             "list"                      
             "Lists all the trips."]

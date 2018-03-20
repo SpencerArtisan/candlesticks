@@ -8,7 +8,8 @@
 (def jan31 (date "31/1/2018"))
 (def feb28 (date "28/2/2018"))
 (def may31 (date "31/5/2018"))
-(def jan-townsville {:what "Townsville" :start jan1 :end jan31})
+(def jan-townsville {:what "Townsville" :start jan1 :end jan31 :fixed true})
+(def jan-movable {:what "Movable" :start jan1 :end jan31 :fixed false})
 (def undated-usa {:what "USA"})
 
 (expect "┬──┬──"
@@ -31,6 +32,9 @@
 
 (expect (str "¦ Townsville ¦             ¦            ")
         (subject/trip-row 40 feb28 may31 jan-townsville))
+
+(expect (str "▓▓▓▓¦Movable")
+        (subject/trip-row 9 jan1 feb28 jan-movable))
 
 (expect (str "████¦Townsville")
         (subject/trip-row 9 jan1 feb28 jan-townsville))
