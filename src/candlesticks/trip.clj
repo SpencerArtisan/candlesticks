@@ -1,9 +1,23 @@
 (ns candlesticks.trip
   (:require [candlesticks.date :refer [date ->str add add-days duration]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.spec.alpha :as s]))
+
+(s/def ::what string?)
+(s/def ::fixed boolean?)
+
+(s/def ::trip (s/keys :req-un [::what]
+                      :opt-un [::start ::end ::fixed]))
+
+(s/def ::dated-trip (s/keys :req-un [::what ::start ::end]
+                            :opt-un [::fixed]))
+
+(s/def ::trips (s/coll-of ::trip))
 
 (defn add-trip
   [trips [what start end]]
+  {:pre [(s/valid? ::trips trips) (s/valid? ::what what)]
+   :post [(s/valid? ::trips %)]}
   (let [trip (if (and start end)
                {:what what :start (date start) :end (date end) :fixed false}
                {:what what})]
@@ -12,6 +26,11 @@
 (defn starts-with
   [trip pattern]
   (clojure.string/starts-with? (:what trip) pattern))
+
+(s/fdef starts-with
+        :args (s/cat :trip map? :pattern string?)
+        :ret boolean?
+        :fn #(constantly true))
 
 (defn delete-trip
   [trips [pattern]]
