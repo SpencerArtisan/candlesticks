@@ -5,7 +5,7 @@
 (defn add-trip
   [trips [what start end]]
   (let [trip (if (and start end)
-               {::what what ::start (date/date start) ::end (date/date end) ::fixed false}
+               {::what what ::start (date/create start) ::end (date/create end) ::fixed false}
                {::what what})]
     (conj trips trip)))
 
@@ -60,7 +60,7 @@
 (defn ->trip
   [[what start end fixed]]
   (if (and start end) 
-    {::what what ::start (date/date start) ::end (date/date end) ::fixed (true? fixed)}
+    {::what what ::start (date/create start) ::end (date/create end) ::fixed (true? fixed)}
     {::what what}))
 
 (defn sort-trips

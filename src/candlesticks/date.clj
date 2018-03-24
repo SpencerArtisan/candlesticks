@@ -15,7 +15,7 @@
   []
   (jt/local-date-time))
 
-(defn date
+(defn create
   [text]
   (let [is-year-missing? (re-find #"^[\d]*/[\d]*$" text)
         year (jt/as (now) :year)

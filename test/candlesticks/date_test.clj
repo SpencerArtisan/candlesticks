@@ -3,10 +3,10 @@
     [candlesticks.date :as subject]
     [expectations :refer [expect]]))
 
-(def jan31 (subject/date "31/01/2018"))
-(def feb1 (subject/date "1/2"))
-(def feb2 (subject/date "2/2"))
-(def feb3 (subject/date "3/2"))
+(def jan31 (subject/create "31/01/2018"))
+(def feb1 (subject/create "1/2"))
+(def feb2 (subject/create "2/2"))
+(def feb3 (subject/create "3/2"))
 (def a-day (subject/duration 1 ::subject/day))
 (def two-days (subject/duration 2 ::subject/day))
 (def third-of-a-day (subject/divide a-day 3))
