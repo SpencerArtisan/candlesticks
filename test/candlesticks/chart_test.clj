@@ -2,15 +2,16 @@
   (:require 
     [candlesticks.chart :as subject]
     [candlesticks.date :refer [date]]
+    [candlesticks.trip :as trip]
     [expectations :refer [expect]]))
 
 (def jan1 (date "1/1/2018"))
 (def jan31 (date "31/1/2018"))
 (def feb28 (date "28/2/2018"))
 (def may31 (date "31/5/2018"))
-(def jan-townsville {:what "Townsville" :start jan1 :end jan31 :fixed true})
-(def jan-movable {:what "Movable" :start jan1 :end jan31 :fixed false})
-(def undated-usa {:what "USA"})
+(def jan-townsville {::trip/what "Townsville" ::trip/start jan1 ::trip/end jan31 ::trip/fixed true})
+(def jan-movable {::trip/what "Movable" ::trip/start jan1 ::trip/end jan31 ::trip/fixed false})
+(def undated-usa {::trip/what "USA"})
 
 (expect "┬──┬──"
         (subject/x-axis-row 6))

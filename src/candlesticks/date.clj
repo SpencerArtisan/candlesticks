@@ -3,13 +3,13 @@
     [java-time :as jt]))
 
 (def formats
-  {:short "d MMM"
-   :long "dd/MM/yyyy"
-   :month "MMM"})
+  {::short "d MMM"
+   ::long "dd/MM/yyyy"
+   ::month "MMM"})
 
 (def hours-per-unit
-   {:month (* 24 (/ 365 12))
-    :day 24})
+   {::month (* 24 (/ 365 12))
+    ::day 24})
 
 (defn now
   []
@@ -20,9 +20,9 @@
   (let [is-year-missing? (re-find #"^[\d]*/[\d]*$" text)
         year (jt/as (now) :year)
         text (if is-year-missing? (str text "/" year) text)
-        text (str text " 00:00:00")]
+        text (str text " 00::00::00")]
     (try
-      (jt/local-date-time "d/M/yyyy HH:mm:ss" text)
+      (jt/local-date-time "d/M/yyyy HH::mm::ss" text)
       (catch Exception e (throw (Exception. "Invalid date format. Use dd/MM or dd/MM/yyyy."))))))
 
 (defn ->str
@@ -44,7 +44,7 @@
 
 (defn add-days
   [date days]
-  (add date (duration days :day)))
+  (add date (duration days ::day)))
 
 (defn divide
   [period divisor]

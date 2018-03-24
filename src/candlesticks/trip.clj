@@ -1,17 +1,17 @@
 (ns candlesticks.trip
-  (:require [candlesticks.date :refer [date ->str add add-days duration]]
+  (:require [candlesticks.date :as date]
             [clojure.java.io :as io]))
 
 (defn add-trip
   [trips [what start end]]
   (let [trip (if (and start end)
-               {:what what :start (date start) :end (date end) :fixed false}
-               {:what what})]
+               {::what what ::start (date/date start) ::end (date/date end) ::fixed false}
+               {::what what})]
     (conj trips trip)))
 
 (defn starts-with
   [trip pattern]
-  (clojure.string/starts-with? (:what trip) pattern))
+  (clojure.string/starts-with? (::what trip) pattern))
 
 (defn delete-trip
   [trips [pattern]]
@@ -25,26 +25,26 @@
   [trips [pattern days]]
   (modify-trip trips 
                pattern 
-               (fn [trip] (update trip :end #(add-days % days))))) 
+               (fn [trip] (update trip ::end #(date/add-days % days))))) 
 
 (defn shift-trip
   [trips [pattern days]]
   (modify-trip trips 
                pattern 
                (fn [trip] (-> trip
-                              (update :start #(add-days % days)) 
-                              (update :end #(add-days % days)))))) 
+                              (update ::start #(date/add-days % days)) 
+                              (update ::end #(date/add-days % days)))))) 
 
 (defn fix-trip
   [trips [pattern]]
   (modify-trip trips 
                pattern 
-               (fn [trip] (assoc trip :fixed true))))
+               (fn [trip] (assoc trip ::fixed true))))
 
 (defn format-trip
-  [{:keys [what start end]}]
+  [{:keys [::what ::start ::end]}]
   (if (and start end) 
-    (format "%-14s%s - %s" what (->str start :short) (->str end :short))
+    (format "%-14s%s - %s" what (date/->str start ::date/short) (date/->str end ::date/short))
     what))
 
 (defn format-trips
@@ -52,20 +52,20 @@
   (clojure.string/join "\n" (map format-trip trips)))
 
 (defn ->edn
-  [{:keys [what start end fixed]}]
+  [{:keys [::what ::start ::end ::fixed]}]
   (if (and start end) 
-    [what (->str start :long) (->str end :long) fixed] 
+    [what (date/->str start ::date/long) (date/->str end ::date/long) fixed] 
     [what]))
 
 (defn ->trip
   [[what start end fixed]]
   (if (and start end) 
-    {:what what :start (date start) :end (date end) :fixed (true? fixed)}
-    {:what what}))
+    {::what what ::start (date/date start) ::end (date/date end) ::fixed (true? fixed)}
+    {::what what}))
 
 (defn sort-trips
   [trips]
-  (sort-by :start trips))
+  (sort-by ::start trips))
 
 (defn load-trips
   []

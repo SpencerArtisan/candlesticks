@@ -4,12 +4,12 @@
     [candlesticks.date :refer [date]]
     [expectations :refer [expect]]))
 
-(def fixed-trip {:what "place" :start (date "1/2/2018") :end (date "3/4/2018") :fixed true})
-(def trip {:what "place" :start (date "1/2/2018") :end (date "3/4/2018") :fixed false})
-(def jan-trip {:what "place" :start (date "1/1") :end (date "20/1")})
-(def feb-trip {:what "place" :start (date "1/2") :end (date "20/2")})
-(def jan-feb-trip {:what "place" :start (date "1/1") :end (date "17/2")})
-(def undated-trip {:what "place"})
+(def fixed-trip {::subject/what "place" ::subject/start (date "1/2/2018") ::subject/end (date "3/4/2018") ::subject/fixed true})
+(def trip {::subject/what "place" ::subject/start (date "1/2/2018") ::subject/end (date "3/4/2018") ::subject/fixed false})
+(def jan-trip {::subject/what "place" ::subject/start (date "1/1") ::subject/end (date "20/1")})
+(def feb-trip {::subject/what "place" ::subject/start (date "1/2") ::subject/end (date "20/2")})
+(def jan-feb-trip {::subject/what "place" ::subject/start (date "1/1") ::subject/end (date "17/2")})
+(def undated-trip {::subject/what "place"})
 
 (expect []
         (subject/delete-trip [trip] ["place"]))
