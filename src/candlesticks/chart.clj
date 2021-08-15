@@ -10,7 +10,8 @@
   (if (and trip-start trip-end)
       (let [dates (date/date-range width start end)
             ->char (fn [[date next-date]]
-                     (cond (date/between? next-date trip-start trip-end) (if fixed "█" "▓")
+                     (cond (or (date/between? next-date trip-start trip-end) (date/between? trip-start date next-date)) 
+                               (if fixed "█" "▓")
                            (> (date/day-of-month date) (date/day-of-month next-date)) "¦"
                            :else                                            " "))
             bar (apply str (map ->char (partition 2 1 dates)))

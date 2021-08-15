@@ -55,3 +55,6 @@
 
 (expect 1
         (subject/day-of-month feb1))
+
+(expect [feb1 feb2 feb3]
+			     (subject/date-range 2 feb1 feb3))

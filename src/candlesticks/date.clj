@@ -15,7 +15,6 @@
   []
   (jt/local-date-time))
 
-
 (defn ->datetime
 	[text]
 	(jt/local-date-time "d/M/yyyy HH::mm::ss" (str text " 00::00::00"))) 

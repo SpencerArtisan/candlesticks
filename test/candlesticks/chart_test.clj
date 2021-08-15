@@ -12,6 +12,7 @@
 (def jan-townsville {::trip/what "Townsville" ::trip/start jan1 ::trip/end jan31 ::trip/fixed true})
 (def jan-movable {::trip/what "Movable" ::trip/start jan1 ::trip/end jan31 ::trip/fixed false})
 (def undated-usa {::trip/what "USA"})
+(def day-trip {::trip/what "Day Trip" ::trip/start jan31 ::trip/end jan31 ::trip/fixed true})
 
 (expect "┬──┬──"
         (subject/x-axis-row 6))
@@ -39,6 +40,9 @@
 
 (expect (str "████¦Townsville")
         (subject/trip-row 9 jan1 feb28 jan-townsville))
+
+(expect (str "    █ Day Trip")
+        (subject/trip-row 9 jan1 feb28 day-trip))
 
 (expect "< USA >"
         (subject/trip-row 9 jan1 feb28 undated-usa))

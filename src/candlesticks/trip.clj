@@ -4,9 +4,10 @@
 
 (defn add-trip
   [trips [what start end]]
-  (let [trip (if (and start end)
-               {::what what ::start (date/create start) ::end (date/create end) ::fixed false}
-               {::what what})]
+  (let [trip (cond 
+               (and start end) {::what what ::start (date/create start) ::end (date/create end) ::fixed false}
+               start {::what what ::start (date/create start) ::end (date/create start) ::fixed false}
+               :else {::what what})]
     (conj trips trip)))
 
 (defn starts-with

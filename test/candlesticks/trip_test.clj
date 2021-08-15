@@ -6,6 +6,7 @@
 
 (def fixed-trip {::subject/what "place" ::subject/start (date/create "1/2") ::subject/end (date/create "3/4") ::subject/fixed true})
 (def trip {::subject/what "place" ::subject/start (date/create "1/2") ::subject/end (date/create "3/4") ::subject/fixed false})
+(def day-trip {::subject/what "place" ::subject/start (date/create "1/2") ::subject/end (date/create "1/2") ::subject/fixed false})
 (def jan-trip {::subject/what "place" ::subject/start (date/create "1/1") ::subject/end (date/create "20/1")})
 (def feb-trip {::subject/what "place" ::subject/start (date/create "1/2") ::subject/end (date/create "20/2")})
 (def jan-feb-trip {::subject/what "place" ::subject/start (date/create "1/1") ::subject/end (date/create "17/2")})
@@ -40,6 +41,9 @@
 
 (expect [trip]
         (subject/add-trip [] ["place" "1/2" "3/4"]))
+
+(expect [day-trip]
+        (subject/add-trip [] ["place" "1/2"]))
 
 (expect "place"
         (subject/format-trip undated-trip)) 
