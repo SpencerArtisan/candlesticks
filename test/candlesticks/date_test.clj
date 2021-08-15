@@ -26,9 +26,6 @@
 (expect "31/01/2018"
         (subject/->str jan31 ::subject/long))
 
-(expect "01/02/2018"
-        (subject/->str feb1 ::subject/long))
-
 (expect feb2
         (subject/add feb1 a-day))
 

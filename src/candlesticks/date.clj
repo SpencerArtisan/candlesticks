@@ -15,14 +15,21 @@
   []
   (jt/local-date-time))
 
+
+(defn ->datetime
+	[text]
+	(jt/local-date-time "d/M/yyyy HH::mm::ss" (str text " 00::00::00"))) 
+
 (defn create
   [text]
   (let [is-year-missing? (re-find #"^[\d]*/[\d]*$" text)
         year (jt/as (now) :year)
-        text (if is-year-missing? (str text "/" year) text)
-        text (str text " 00::00::00")]
+        datetext (str (if is-year-missing? (str text "/" year) text))]
     (try
-      (jt/local-date-time "d/M/yyyy HH::mm::ss" text)
+      (let [datetime (->datetime datetext)]
+        (if (and is-year-missing? (jt/before? datetime (now))) 
+          (->datetime (str text "/" (+ year 1))) 
+          datetime))
       (catch Exception e (throw (Exception. "Invalid date format. Use dd/MM or dd/MM/yyyy."))))))
 
 (defn ->str
