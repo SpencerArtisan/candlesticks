@@ -57,9 +57,9 @@
    :add    [(juxt add-trip draw-chart)    
             "add [name] [start] [end]"  
             "Adds a new trip to the map. eg. add USA 1/4 15/4. You may miss off dates for uncertain trips."]
-   :delete [(juxt delete-trip draw-chart) 
-            "delete [name]"             
-            "Deletes a trip. You may enter just the start of the name."]
+   :rm 	    [(juxt delete-trip draw-chart) 
+            "rm [name]"             
+            "Removes a trip. You may enter just the start of the name."]
    :extend [(juxt extend-trip draw-chart)  
             "extend [name] [days]"       
             "Increases the length of the trip (or decreases for negatives). You may enter just the start of the name."]
@@ -78,7 +78,7 @@
 
 (defn -main 
   ([]
-   (help))
+   (draw-chart))
   ([action & args]
    (if-let [[func :as action-vector] ((keyword action) actions)]
      (try

@@ -1,6 +1,6 @@
 Candlesticks
 ============
-A command line application for managing travel plans.
+A command line application for creating ASCI Gantt charts.
 
 Trips may be added, adjusted and visualised. For example:
 
