@@ -6,7 +6,7 @@
     [clojure.string :refer [last-index-of]]))
 
 (defn trip-row
-  [width start end {what ::trip/what trip-start ::trip/start trip-end ::trip/end fixed ::trip/fixed}]
+  [width start end marks {what ::trip/what trip-start ::trip/start trip-end ::trip/end fixed ::trip/fixed}]
   (if (and trip-start trip-end)
       (let [dates (date/date-range width start end)
             ->char (fn [[date next-date]]
@@ -42,15 +42,15 @@
     (apply str labels)))
     
 (defn chart
-  [width start end trips]
-  (let [trip-rows (map (partial trip-row width start end) trips)
+  [width start end marks trips]
+  (let [trip-rows (map (partial trip-row width start end marks) trips)
         axis [(x-axis-row width) (date-row width start end) (month-row width start end)]
         all-rows (flatten ["" trip-rows axis])]
     (clojure.string/join "\n " all-rows)))
 
 (defn colour-chart
-  [width start end trips]
-  (let [chart (chart width start end trips)
+  [width start end marks trips]
+  (let [chart (chart width start end marks trips)
         replacements (concat (map (fn [trip] [(::trip/what trip) 36]) trips)
                              [["█" 31] ["▓" 34] ["<" 34] [">" 34] ["¦" 37]])]
     (reduce (fn [ch [text col]] (clojure.string/replace ch text (colour col text))) chart replacements)))

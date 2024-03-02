@@ -16,7 +16,7 @@
   [& _]
   (let [start (date/now)
         end   (date/add start (date/duration 9 ::date/month))]
-    (with-trips (comp println (partial chart/colour-chart 117 start end)))))
+    (with-trips (comp println (partial chart/colour-chart 117 start end [])))))
 
 (defn add-trip
   [args]
