@@ -56,7 +56,7 @@
             "Draws a visual representation of your trips."]
    :add    [(juxt add-trip draw-chart)    
             "add [name] [start] [end]"  
-            "Adds a new trip to the map. eg. add USA 1/4 15/4. You may miss off dates for uncertain trips."]
+            "Adds a new trip. eg. add USA 1/4 15/4. You may miss off dates for uncertain trips."]
    :rm 	    [(juxt delete-trip draw-chart) 
             "rm [name]"             
             "Removes a trip. You may enter just the start of the name."]
@@ -72,6 +72,9 @@
    :list   [list-trips                    
             "list"                      
             "Lists all the trips."]
+   :mark    [(juxt add-mark draw-chart)    
+            "mark [start] [end]"  
+            "Adds a shaded area. eg. add 1/4 15/4."]
    :help   [help                          
             "help"                      
             "Displays this page."]})

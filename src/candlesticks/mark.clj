@@ -4,7 +4,7 @@
 
 (defn add-mark
   [marks [start end]]
-  (let [mark ({::start (date/create start) ::end (date/create end)})]
+  (let [mark {::start (date/create start) ::end (date/create end)}]
     (conj marks mark)))
 
 (defn ->edn
