@@ -44,12 +44,11 @@
   (with-trips (comp println trip/format-trips)))
 
 (defn add-mark
-  [[start end]]
+  [args]
     (some-> (mark/load-marks)
-    #(mark/add-mark % [start end])
-    (mark/save-marks)))
+    		      (#(mark/add-mark % args))
+            (mark/save-marks)))
   
-
 (defn describe
   [[_ usage description]] 
   (format "    %-30s%s" usage description))
