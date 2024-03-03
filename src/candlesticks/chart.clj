@@ -3,7 +3,18 @@
     [candlesticks.date :as date]
     [candlesticks.util :refer [colour replace-at]]
     [candlesticks.trip :as trip]
+    [candlesticks.mark :as mark]
     [clojure.string :refer [last-index-of]]))
+
+(defn is-between?
+	 [date next-date {mark-start ::mark/start mark-end ::mark/end}]
+ 	(or (date/between? next-date mark-start mark-end) (date/between? mark-start date next-date))
+)
+
+(defn is-marked
+	 [marks start-date end-date]
+	 (some (partial is-between? start-date end-date) marks)
+)
 
 (defn trip-row
   [width start end marks {what ::trip/what trip-start ::trip/start trip-end ::trip/end fixed ::trip/fixed}]
@@ -13,13 +24,12 @@
                      (cond (or (date/between? next-date trip-start trip-end) (date/between? trip-start date next-date)) 
                                (if fixed "█" "▓")
                            (> (date/day-of-month date) (date/day-of-month next-date)) "¦"
+                           (is-marked marks date next-date) "░"
                            :else                                            " "))
             row (apply str (map ->char (partition 2 1 dates)))
             bar-end (or (last-index-of row "█") (last-index-of row "▓") 0)]
         (replace-at (+ 2 bar-end) row what))
       (str "< " what " >")))
-;▓
-
 
 (defn x-axis-row
   [width]

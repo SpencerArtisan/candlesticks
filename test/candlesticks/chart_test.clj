@@ -51,7 +51,7 @@
 (expect "< USA >"
         (subject/trip-row 9 jan1 feb28 [] undated-usa))
 
-(expect (str "¦ Townsville ¦             ¦            ")
+(expect (str "¦ Townsville ¦             ¦░░░░░░░░░░░░")
         (subject/trip-row 40 mar31 jun30 [jun-mark] jan-townsville))
 
 (expect "

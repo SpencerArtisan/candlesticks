@@ -15,9 +15,10 @@
 
 (defn draw-chart
   [& _]
-  (let [start (date/now)
+  (let [marks (mark/load-marks)
+  		    start (date/now)
         end   (date/add start (date/duration 9 ::date/month))]
-    (with-trips (comp println (partial chart/colour-chart 117 start end [])))))
+    (with-trips (comp println (partial chart/colour-chart 117 start end marks)))))
 
 (defn add-trip
   [args]
