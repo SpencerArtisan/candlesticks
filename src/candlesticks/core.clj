@@ -44,12 +44,20 @@
   [& _]
   (with-trips (comp println trip/format-trips)))
 
+(defn with-marks
+  [mark-mutator]
+  (some-> (mark/load-marks)
+          (mark-mutator)
+          (mark/save-marks)))
+
 (defn add-mark
   [args]
-    (some-> (mark/load-marks)
-    		      (#(mark/add-mark % args))
-            (mark/save-marks)))
-  
+  (with-marks #(mark/add-mark % args)))
+
+(defn delete-marks
+  [args]
+  (with-marks #(mark/delete-marks %)))
+
 (defn describe
   [[_ usage description]] 
   (format "    %-30s%s" usage description))
@@ -83,6 +91,9 @@
    :mark   [(juxt add-mark draw-chart)    
             "mark [start] [end]"  
             "Adds a shaded area. eg. mark 1/4 15/4."]
+   :clear   [(juxt delete-marks draw-chart)    
+            "clear"  
+            "Clears all shaded areas"]
    :help   [help                          
             "help"                      
             "Displays this page."]})

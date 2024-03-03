@@ -5,8 +5,11 @@
 (defn add-mark
   [marks [start end]]
   (let [mark {::start (date/create start) ::end (date/create end)}]
-  (conj marks mark))
-)
+  (conj marks mark)))
+
+(defn delete-marks
+  [marks]
+  [])
 
 (defn ->edn
   [{:keys [::start ::end]}]
