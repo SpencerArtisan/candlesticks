@@ -14,9 +14,9 @@
                                (if fixed "█" "▓")
                            (> (date/day-of-month date) (date/day-of-month next-date)) "¦"
                            :else                                            " "))
-            bar (apply str (map ->char (partition 2 1 dates)))
-            bar-end (or (last-index-of bar "█") (last-index-of bar "▓") 0)]
-        (replace-at (+ 2 bar-end) bar what))
+            row (apply str (map ->char (partition 2 1 dates)))
+            bar-end (or (last-index-of row "█") (last-index-of row "▓") 0)]
+        (replace-at (+ 2 bar-end) row what))
       (str "< " what " >")))
 ;▓
 

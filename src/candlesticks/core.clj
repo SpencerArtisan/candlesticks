@@ -1,6 +1,7 @@
 (ns candlesticks.core
   (:require [candlesticks.date :as date]
             [candlesticks.chart :as chart]
+            [candlesticks.mark :as mark]
             [candlesticks.trip :as trip]
             [clojure.java.io :as io]))
 
@@ -42,6 +43,13 @@
   [& _]
   (with-trips (comp println trip/format-trips)))
 
+(defn add-mark
+  [[start end]]
+    (some-> (mark/load-marks)
+    #(mark/add-mark % [start end])
+    (mark/save-marks)))
+  
+
 (defn describe
   [[_ usage description]] 
   (format "    %-30s%s" usage description))
@@ -72,9 +80,9 @@
    :list   [list-trips                    
             "list"                      
             "Lists all the trips."]
-   :mark    [(juxt add-mark draw-chart)    
+   :mark   [(juxt add-mark draw-chart)    
             "mark [start] [end]"  
-            "Adds a shaded area. eg. add 1/4 15/4."]
+            "Adds a shaded area. eg. mark 1/4 15/4."]
    :help   [help                          
             "help"                      
             "Displays this page."]})
