@@ -2,7 +2,7 @@ Candlesticks
 ============
 A command line application for creating ASCI Gantt charts.
 
-Trips may be added, adjusted and visualised. For example:
+Items may be added, adjusted and visualised. For example:
 
 ```
 < Sailing > 

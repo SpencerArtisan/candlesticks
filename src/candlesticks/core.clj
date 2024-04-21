@@ -24,7 +24,7 @@
   [& _]
   (let [marks (mark/load-marks)
   		    start (date/now)
-        end   (date/add start (date/duration 3 ::date/month))]
+        end   (date/add start (date/duration 78 ::date/day))]
     (with-trips (comp println (partial chart/colour-chart 117 start end marks)))))
 
 (defn add-trip

@@ -7,9 +7,11 @@
     [expectations :refer [expect]]))
 
 (def jan1 (date/create "1/1/2018"))
+(def jan15 (date/create "15/1/2018"))
 (def jan31 (date/create "31/1/2018"))
 (def feb28 (date/create "28/2/2018"))
 (def mar31 (date/create "31/3/2018"))
+(def apr1 (date/create "1/4/2018"))
 (def may31 (date/create "31/5/2018"))
 (def jun30 (date/create "30/6/2018"))
 (def jan-townsville {::trip/what "Townsville" ::trip/start jan1 ::trip/end jan31 ::trip/fixed true})
@@ -36,7 +38,7 @@
 (expect "Jan  Feb  "
         (subject/month-row 9 jan1 feb28))
 
-(expect (str "¦ Townsville ¦             ¦            ")
+(expect (str "")
         (subject/trip-row 40 feb28 may31 [] jan-townsville))
 
 (expect (str "▓▓▓▓¦Movable")
@@ -48,10 +50,13 @@
 (expect (str "    █ Day Trip")
         (subject/trip-row 9 jan1 feb28 [] day-trip))
 
+(expect (str "")
+        (subject/trip-row 9 jan1 jan15 [] day-trip))
+
 (expect "< USA >"
         (subject/trip-row 9 jan1 feb28 [] undated-usa))
 
-(expect (str "¦ Townsville ¦             ¦░░░░░░░░░░░░")
+(expect (str "")
         (subject/trip-row 40 mar31 jun30 [jun-mark] jan-townsville))
 
 (expect "
@@ -65,3 +70,10 @@
  7  26 14 
  Jan  Feb  "
   (subject/chart 9 jan1 feb28 [] [jan-townsville]))
+
+
+(expect "
+ ┬──┬──┬──
+ 7  27 17 
+ Apr  May  "
+  (subject/chart 9 apr1 may31 [] [jan-townsville]))

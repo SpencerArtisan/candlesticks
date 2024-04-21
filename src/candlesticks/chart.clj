@@ -28,7 +28,7 @@
                            :else                                            " "))
             row (apply str (map ->char (partition 2 1 dates)))
             bar-end (or (last-index-of row "█") (last-index-of row "▓") 0)]
-        (replace-at (+ 2 bar-end) row what))
+        (if (= bar-end 0) "" (replace-at (+ 2 bar-end) row what)))
       (str "< " what " >")))
 
 (defn x-axis-row
@@ -55,7 +55,8 @@
   [width start end marks trips]
   (let [trip-rows (map (partial trip-row width start end marks) trips)
         axis [(x-axis-row width) (date-row width start end) (month-row width start end)]
-        all-rows (flatten ["" trip-rows axis])]
+        in-scope-trip-rows (remove empty? trip-rows)
+        all-rows (flatten ["" in-scope-trip-rows axis])]
     (clojure.string/join "\n " all-rows)))
 
 (defn colour-chart
