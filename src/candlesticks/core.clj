@@ -20,6 +20,13 @@
         end   (date/add start (date/duration 9 ::date/month))]
     (with-trips (comp println (partial chart/colour-chart 117 start end marks)))))
 
+(defn zoom-chart
+  [& _]
+  (let [marks (mark/load-marks)
+  		    start (date/now)
+        end   (date/add start (date/duration 3 ::date/month))]
+    (with-trips (comp println (partial chart/colour-chart 117 start end marks)))))
+
 (defn add-trip
   [args]
   (with-trips #(trip/add-trip % args)))
@@ -70,6 +77,9 @@
   {:draw   [draw-chart                    
             "draw"                      
             "Draws a visual representation of your trips."]
+   :zoom   [zoom-chart                    		
+            "zoom"                      
+            "Draws a zoomed in version of the next few months"]
    :add    [(juxt add-trip draw-chart)    
             "add [name] [start] [end]"  
             "Adds a new trip. eg. add USA 1/4 15/4. You may miss off dates for uncertain trips."]
